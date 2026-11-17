@@ -1,0 +1,56 @@
+[project]
+name = "traffic-speed-dashboard"
+version = "0.1.0"
+description = "Vehicle speed and traffic-impedance analysis: centreline-calibrated YOLO + BoT-SORT pipeline, FastAPI + Celery backend, Streamlit dashboard."
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    # Computer vision pipeline (same stack as 8+8+++_fixed.py)
+    "ultralytics>=8.3.200",
+    "opencv-python>=4.11",
+    "numpy>=1.26",
+    "pyyaml>=6.0",
+    "lap>=0.5.12",
+    "openpyxl>=3.1",
+    "pandas>=2.2",
+    # Backend
+    "fastapi[standard]>=0.115",
+    "pydantic>=2.9",
+    "pydantic-settings>=2.6",
+    "sqlalchemy>=2.0",
+    "celery[redis]>=5.4",
+    "redis>=5.0",
+    # Dashboard
+    "streamlit>=1.40",
+    "plotly>=5.24",
+    "requests>=2.32",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "ruff>=0.9",
+]
+
+[tool.uv]
+package = false
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+# Copied verbatim from 8+8+++_fixed.py - kept byte-for-byte so speeds match.
+extend-exclude = ["app/pipeline/geometry.py", "app/pipeline/drawing.py"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+# E741: `l` is the lateral offset, named as in the original script.
+ignore = ["E741"]
+
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = ["fastapi.Depends", "fastapi.Query"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["app", "api", "common", "tests"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

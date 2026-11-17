@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.env
+traffic.db*
+runs/*
+!runs/.gitkeep
+*.mp4
+*.TS
+*.pt
+.DS_Store
